@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    const MainApp(),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -9,10 +11,24 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.blue,
+        appBar: AppBar(title: Text("siema")),
         body: Center(
-          child: Text('Hello World!'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text("s"),
+              Text("c"),
+              Text("m"),
+              Container(
+                width: 200,
+                height: 100,
+                color: Colors.black26,
+              )
+            ],
+          ),
         ),
       ),
     );
