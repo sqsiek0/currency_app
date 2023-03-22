@@ -5,4 +5,4 @@ This app shows the latest info about currency for example the average price of t
 
 ---
 ### Roadmap
-![Roadmap](assets\images\roadmap.png)
+![Roadmap](assets/images/roadmap.png)
