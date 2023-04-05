@@ -42,7 +42,7 @@ class _CirclesCornerState extends State<CirclesCorner> {
     return Stack(
       children: [
         Positioned(
-            top: -30,
+            top: -20,
             left: 20,
             child: Container(
               width: 100,
@@ -53,7 +53,7 @@ class _CirclesCornerState extends State<CirclesCorner> {
               ),
             )),
         Positioned(
-          top: -75,
+          top: -55,
           left: 75,
           child: Container(
             width: 200,
