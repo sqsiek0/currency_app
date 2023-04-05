@@ -33,7 +33,7 @@ class CirclesCorner extends StatefulWidget {
 }
 
 class _CirclesCornerState extends State<CirclesCorner> {
-  //* Zmienne do kolorów - zmien jak się zdecydujesz jakie kolory chcesz
+  //TODO: Zmienne do kolorów - zmien jak się zdecydujesz jakie kolory chcesz
   Color? bigCircleColor = Colors.grey[300];
   Color? smallCircleColor = Colors.grey[400];
 
@@ -43,7 +43,7 @@ class _CirclesCornerState extends State<CirclesCorner> {
       children: [
         Positioned(
             top: -30,
-            left: 30,
+            left: 20,
             child: Container(
               width: 100,
               height: 100,
