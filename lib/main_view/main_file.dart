@@ -36,7 +36,7 @@ class _MainViewPageState extends State<MainViewPage> {
                     return const MenuIcon();
                   }),
                 ),
-                Text("test"),
+                Text("test1"),
                 const SizedBox(width: 200, height: 200, child: CirclesCorner())
               ],
             );
