@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuIcon extends StatelessWidget {
   const MenuIcon({super.key});
@@ -12,7 +13,7 @@ class MenuIcon extends StatelessWidget {
       icon: const Icon(
         Icons.menu,
       ),
-      iconSize: 40,
+      iconSize: 40.sp,
     );
   }
 }
@@ -46,25 +47,25 @@ class _CirclesCornerState extends State<CirclesCorner> {
     return Stack(
       children: [
         Positioned(
-            top: -35,
-            left: 20,
+            top: -35.h,
+            left: 20.w,
             child: Container(
-              width: 100,
-              height: 100,
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: smallCircleColor,
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(50.r),
               ),
             )),
         Positioned(
-          top: -75,
-          left: 75,
+          top: -75.h,
+          left: 75.w,
           child: Container(
-            width: 200,
-            height: 200,
+            width: 200.w,
+            height: 200.h,
             decoration: BoxDecoration(
               color: bigCircleColor,
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: BorderRadius.circular(100.r),
             ),
           ),
         )

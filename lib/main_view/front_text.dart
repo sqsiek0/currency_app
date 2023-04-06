@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainText extends StatefulWidget {
   const MainText({super.key});
@@ -20,15 +21,15 @@ class _MainTextState extends State<MainText> {
             text: TextSpan(
                 text: "Find out",
                 style: TextStyle(
-                    fontSize: 44,
-                    letterSpacing: 1.2,
+                    fontSize: 44.sp,
+                    letterSpacing: 1.2.sp,
                     fontWeight: FontWeight.bold,
                     color: bigText),
                 children: [
               TextSpan(
                   text: " the details",
                   style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 40.sp,
                       letterSpacing: 1.2,
                       fontWeight: FontWeight.w500,
                       color: smallText))
