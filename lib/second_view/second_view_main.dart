@@ -1,19 +1,17 @@
 import 'package:currency_app/main_view/top_bar_button_circles.dart';
-import 'package:currency_app/second_view/second_view_main.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:currency_app/main_view/front_text.dart';
 import '../fetch_JSON/get_data.dart';
 import '../fetch_JSON/model_class.dart';
-import 'front_text.dart';
 
-class MainViewPage extends StatefulWidget {
-  const MainViewPage({super.key});
+class SecondView extends StatefulWidget {
+  SecondView({super.key});
 
   @override
-  State<MainViewPage> createState() => _MainViewPageState();
+  State<SecondView> createState() => _SecondViewState();
 }
 
-class _MainViewPageState extends State<MainViewPage> {
+class _SecondViewState extends State<SecondView> {
   late Future<Currency> futureCurrency;
 
   @override
@@ -50,16 +48,6 @@ class _MainViewPageState extends State<MainViewPage> {
                     padding: EdgeInsets.only(left: 56),
                     child: AnimatedMainText(),
                   ),
-                  GestureDetector(
-                    onVerticalDragEnd: (details) {
-                      if (details.velocity.pixelsPerSecond.dy < 100) {
-                        Get.off(() => SecondView(),
-                            transition: Transition.downToUp,
-                            duration: const Duration(milliseconds: 600));
-                      }
-                    },
-                    child: swipeUp(),
-                  )
                 ],
               );
             } else if (snapshot.hasError) {
@@ -70,21 +58,6 @@ class _MainViewPageState extends State<MainViewPage> {
         ),
       ),
       drawer: const MyDrawerClass(), // TODO: Zrobić ten drawer do końca
-    );
-  }
-
-  Widget swipeUp() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        SizedBox(
-          height: 200,
-        ),
-        Icon(
-          Icons.arrow_circle_up_rounded,
-          size: 64,
-        ),
-      ],
     );
   }
 }

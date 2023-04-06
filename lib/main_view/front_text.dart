@@ -45,16 +45,25 @@ class AnimatedMainText extends StatefulWidget {
 
 class _AnimatedMainTextState extends State<AnimatedMainText>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 2500))
-    ..repeat(reverse: true);
+  // late final AnimationController _controller = AnimationController(
+  //     vsync: this, duration: const Duration(milliseconds: 2500))
+  //   ..repeat(reverse: true);
+  late AnimationController _controller;
   late final Animation<Offset> _animation = Tween<Offset>(
     begin: const Offset(0, 0),
-    end: const Offset(0, 0.07), // todo: Pobawić się tymi wartościami
+    end: const Offset(0, 0.07), // TODO: Pobawić się tymi wartościami
   ).animate(CurvedAnimation(
     parent: _controller,
     curve: Curves.easeInOut,
   ));
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 3500))
+      ..stop(); //TODO: Zmienić na repeat(reverse: true)
+  }
 
   @override
   void dispose() {

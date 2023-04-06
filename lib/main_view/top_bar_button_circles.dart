@@ -6,10 +6,14 @@ class MenuIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          Scaffold.of(context).openDrawer();
-        },
-        icon: const Icon(Icons.menu));
+      onPressed: () {
+        Scaffold.of(context).openDrawer();
+      },
+      icon: const Icon(
+        Icons.menu,
+      ),
+      iconSize: 40,
+    );
   }
 }
 
@@ -42,7 +46,7 @@ class _CirclesCornerState extends State<CirclesCorner> {
     return Stack(
       children: [
         Positioned(
-            top: -20,
+            top: -35,
             left: 20,
             child: Container(
               width: 100,
@@ -53,7 +57,7 @@ class _CirclesCornerState extends State<CirclesCorner> {
               ),
             )),
         Positioned(
-          top: -55,
+          top: -75,
           left: 75,
           child: Container(
             width: 200,
