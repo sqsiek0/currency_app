@@ -1,8 +1,9 @@
 import 'package:currency_app/main_view/top_bar_button_circles.dart';
 import 'package:flutter/material.dart';
-import 'package:currency_app/main_view/front_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'main_container_info.dart';
 
 class SecondView extends StatefulWidget {
   const SecondView({super.key});
@@ -51,27 +52,9 @@ class _SecondViewState extends State<SecondView>
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(left: 56.w),
-                child: const MainText(), //TODO: Zmienić na bez animacji
+                padding: EdgeInsets.only(top: 56.h),
               ),
-              // TextButton(
-              //     onPressed: () {
-              //       Get.back();
-              //     },
-              //     child: const Text("Back")),
-              SizedBox(
-                height: 48.h,
-              ),
-              Expanded(
-                // * Zrobić z tego klase
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadiusDirectional.only(
-                          topStart: Radius.circular(40.r),
-                          topEnd: Radius.circular(40.r))),
-                ),
-              )
+              MainContainerInfo(),
             ],
           ),
         ),
