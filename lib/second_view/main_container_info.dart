@@ -63,7 +63,6 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                                 borderRadius: BorderRadius.circular(8.r)),
                             physics: const BouncingScrollPhysics(),
                             onTap: (value) {
-                              print(value);
                               if (value == 1) {
                                 setState(() {
                                   futureCurrency =
@@ -106,15 +105,18 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                           controller: _tabController,
                           children: [
                             //! Jeśli będziesz tworzył wykres spróbuj go opoznic ładoowaniem w kółko
-                            Container(),
-                            Container(
-                              color: Colors.green,
-                              child: Text(snapshot.data!.currency),
-                            ),
-                            Container(
-                              color: Colors.yellow,
-                              child: Text(snapshot.data!.currency),
-                            ),
+                            GestureDetector(
+                                onHorizontalDragEnd: (details) {
+                                  if (details.primaryVelocity! < 50) {
+                                    setState(() {
+                                      futureCurrency =
+                                          Network().fetchData(code: "usd");
+                                    });
+                                  }
+                                },
+                                child: Container()),
+                            detailsOfCurrency(snapshot),
+                            detailsOfCurrency(snapshot),
                           ],
                         ),
                       ),
@@ -125,6 +127,94 @@ class _MainContainerInfoState extends State<MainContainerInfo>
             }
             return const Center(child: CircularProgressIndicator());
           }),
+    );
+  }
+
+  Column detailsOfCurrency(AsyncSnapshot<Currency> snapshot) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32.w),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 168.w,
+                height: 128.h,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(32.r),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 16.0.h, left: 16.0.w, bottom: 16.0.h),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Icon(
+                            Icons.money_rounded,
+                            size: 32.sp,
+                          )),
+                    ),
+                    Text(
+                      snapshot.data!.rates[29].mid.toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 168.w,
+                height: 128.h,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(32.r),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 16.0.h, left: 16.0.w, bottom: 16.0.h),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Icon(
+                            Icons.calendar_today,
+                            size: 32.sp,
+                          )),
+                    ),
+                    Text(
+                      snapshot.data!.rates[29].effectiveDate
+                          .toLocal()
+                          .toString()
+                          .split(" ")[0],
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 32.h),
+          child: Container(
+            width: 318.w,
+            height: 176.h,
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(32.r),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
