@@ -8,6 +8,7 @@ class Network {
         "http://api.nbp.pl/api/exchangerates/rates/a/$code/last/30/?format=json"));
 
     if (response.statusCode == 200) {
+      Future.delayed(const Duration(seconds: 1));
       return Currency.fromJson(json.decode(response.body));
     } else {
       throw Exception("Błąd w załadowaniu z pliku json");

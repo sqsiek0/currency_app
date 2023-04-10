@@ -1,4 +1,6 @@
 import 'package:currency_app/fetch_JSON/model_class.dart';
+import 'package:currency_app/second_view/graphs_view.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +15,10 @@ class MainContainerInfo extends StatefulWidget {
 
 class _MainContainerInfoState extends State<MainContainerInfo>
     with SingleTickerProviderStateMixin {
-  late final TabController _tabController =
-      TabController(length: 3, vsync: this);
+  late final TabController _tabController = TabController(
+      length: 3,
+      vsync: this,
+      animationDuration: const Duration(milliseconds: 1500));
   late Future<Currency> futureCurrency;
 
   @override
@@ -105,16 +109,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                           controller: _tabController,
                           children: [
                             //! Jeśli będziesz tworzył wykres spróbuj go opoznic ładoowaniem w kółko
-                            GestureDetector(
-                                onHorizontalDragEnd: (details) {
-                                  if (details.primaryVelocity! < 50) {
-                                    setState(() {
-                                      futureCurrency =
-                                          Network().fetchData(code: "usd");
-                                    });
-                                  }
-                                },
-                                child: Container()),
+                            Container(),
                             detailsOfCurrency(snapshot),
                             detailsOfCurrency(snapshot),
                           ],
@@ -212,9 +207,82 @@ class _MainContainerInfoState extends State<MainContainerInfo>
               color: Colors.amber,
               borderRadius: BorderRadius.circular(32.r),
             ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 24.h, right: 24.w),
+              child: graphView(snapshot.data),
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget graphView(Currency? data) {
+    return LineChart(
+      LineChartData(
+        minY: 4,
+        maxY: 5,
+        minX: 0,
+        maxX: 29,
+        titlesData: FlTitlesData(
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 24.h,
+              interval: 7,
+              getTitlesWidget: (value, meta) {
+                switch (value.toInt()) {
+                  // case 0:
+                  //   return Text(
+                  //       "${data!.rates[0].effectiveDate.toLocal().day}/${data.rates[0].effectiveDate.toLocal().month}");
+                  case 7:
+                    return Text(
+                        "${data!.rates[7].effectiveDate.toLocal().day}/${data.rates[7].effectiveDate.toLocal().month}");
+                  case 14:
+                    return Text(
+                        "${data!.rates[14].effectiveDate.toLocal().day}/${data.rates[14].effectiveDate.toLocal().month}");
+                  case 21:
+                    return Text(
+                        "${data!.rates[21].effectiveDate.toLocal().day}/${data.rates[21].effectiveDate.toLocal().month}");
+                  case 28:
+                    return Text(
+                        "${data!.rates[28].effectiveDate.toLocal().day}/${data.rates[28].effectiveDate.toLocal().month}");
+                }
+                return Text("");
+              },
+            ),
+          ),
+          // leftTitles: AxisTitles(
+          //   sideTitles: SideTitles(
+          //     showTitles: true,
+          //     interval: 0.5,
+          //     reservedSize: 48.w,
+          //     getTitlesWidget: (value, meta) {
+          //       return Text(
+          //         value.toStringAsFixed(1),
+          //       );
+          //     },
+          //   ),
+          // ),
+        ),
+        lineBarsData: [
+          LineChartBarData(
+            spots: [
+              for (int i = 0; i < data!.rates.length; i++)
+                FlSpot(i.toDouble(),
+                    double.parse(data.rates[i].mid.toStringAsFixed(2)))
+            ],
+            isCurved: true,
+            dotData: FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              color: Colors.blue.withOpacity(0.4),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
