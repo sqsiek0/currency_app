@@ -1,9 +1,11 @@
 import 'package:currency_app/fetch_JSON/model_class.dart';
 import 'package:currency_app/second_view/graphs_view.dart';
+import 'package:currency_app/second_view/on_click_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../fetch_JSON/get_data.dart';
 
 class MainContainerInfo extends StatefulWidget {
@@ -21,9 +23,26 @@ class _MainContainerInfoState extends State<MainContainerInfo>
       animationDuration: const Duration(milliseconds: 1500));
   late Future<Currency> futureCurrency;
 
+  late final AnimationController _glowController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1500),
+  )..repeat(reverse: true);
+
+  late final Animation<double> _glowAnimation;
+
   @override
   void initState() {
     futureCurrency = Network().fetchData(code: "eur");
+    // _glowAnimation =
+    //     Tween<double>(begin: 2.0, end: 16.0).animate(_glowController)
+    //       ..addListener(() {
+    //         setState(() {});
+    //       });
+    _glowAnimation =
+        CurvedAnimation(parent: _glowController, curve: Curves.easeIn)
+          ..addListener(() {
+            setState(() {});
+          });
     super.initState();
   }
 
@@ -34,95 +53,96 @@ class _MainContainerInfoState extends State<MainContainerInfo>
           future: futureCurrency,
           builder: (context, AsyncSnapshot<Currency> snapshot) {
             if (snapshot.hasData) {
-              return Container(
-                  width: 1.sw,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadiusDirectional.only(
-                          topStart: Radius.circular(40.r),
-                          topEnd: Radius.circular(40.r))),
-                  child: Column(children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 32.w, vertical: 32.h),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(32.r),
-                        ),
-                        width: 1.sw,
-                        height: 80.h,
-                        child: TabBar(
-                            controller: _tabController,
-                            labelColor: Colors.black,
-                            unselectedLabelColor: Colors.black26,
-                            labelStyle: TextStyle(fontSize: 40.sp),
-                            indicator: UnderlineTabIndicator(
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2.h,
-                                ),
-                                insets: EdgeInsets.symmetric(
-                                    horizontal: 32.w, vertical: 16.h),
-                                borderRadius: BorderRadius.circular(8.r)),
-                            physics: const BouncingScrollPhysics(),
-                            onTap: (value) {
-                              if (value == 1) {
-                                setState(() {
-                                  futureCurrency =
-                                      Network().fetchData(code: "usd");
-                                });
-                              } else if (value == 2) {
-                                setState(() {
-                                  futureCurrency =
-                                      Network().fetchData(code: "eur");
-                                });
-                              }
-                            },
-                            tabs: [
-                              Tab(
-                                icon: Icon(
-                                  Icons.money_off,
-                                  size: 32.sp,
-                                ),
-                              ),
-                              Tab(
-                                icon: Icon(
-                                  Icons.attach_money,
-                                  size: 32.sp,
-                                ),
-                              ),
-                              Tab(
-                                icon: Icon(
-                                  Icons.euro,
-                                  size: 32.sp,
-                                ),
-                              ),
-                            ]),
-                      ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 1.sw,
-                        child: TabBarView(
-                          physics: const BouncingScrollPhysics(),
-                          controller: _tabController,
-                          children: [
-                            //! Jeśli będziesz tworzył wykres spróbuj go opoznic ładoowaniem w kółko
-                            Container(),
-                            detailsOfCurrency(snapshot),
-                            detailsOfCurrency(snapshot),
-                          ],
-                        ),
-                      ),
-                    )
-                  ]));
+              return tabBarView(snapshot);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
             return const Center(child: CircularProgressIndicator());
           }),
     );
+  }
+
+  Container tabBarView(AsyncSnapshot<Currency> snapshot) {
+    return Container(
+        width: 1.sw,
+        decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadiusDirectional.only(
+                topStart: Radius.circular(40.r),
+                topEnd: Radius.circular(40.r))),
+        child: Column(children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(32.r),
+              ),
+              width: 1.sw,
+              height: 80.h,
+              child: TabBar(
+                  controller: _tabController,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.black26,
+                  labelStyle: TextStyle(fontSize: 40.sp),
+                  indicator: UnderlineTabIndicator(
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2.h,
+                      ),
+                      insets: EdgeInsets.symmetric(
+                          horizontal: 32.w, vertical: 16.h),
+                      borderRadius: BorderRadius.circular(8.r)),
+                  physics: const BouncingScrollPhysics(),
+                  onTap: (value) {
+                    if (value == 1) {
+                      setState(() {
+                        futureCurrency = Network().fetchData(code: "usd");
+                      });
+                    } else if (value == 2) {
+                      setState(() {
+                        futureCurrency = Network().fetchData(code: "eur");
+                      });
+                    }
+                  },
+                  tabs: [
+                    Tab(
+                      icon: Icon(
+                        Icons.money_off,
+                        size: 32.sp,
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        Icons.attach_money,
+                        size: 32.sp,
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        Icons.euro,
+                        size: 32.sp,
+                      ),
+                    ),
+                  ]),
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              width: 1.sw,
+              child: TabBarView(
+                physics: const BouncingScrollPhysics(),
+                controller: _tabController,
+                children: [
+                  //! Jeśli będziesz tworzył wykres spróbuj go opoznic ładoowaniem w kółko
+                  Container(),
+                  detailsOfCurrency(snapshot),
+                  detailsOfCurrency(snapshot),
+                ],
+              ),
+            ),
+          )
+        ]));
   }
 
   Column detailsOfCurrency(AsyncSnapshot<Currency> snapshot) {
@@ -204,75 +224,97 @@ class _MainContainerInfoState extends State<MainContainerInfo>
             width: 318.w,
             height: 176.h,
             decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(32.r),
-            ),
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(32.r),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.25),
+                      // offset: Offset(8, 8),
+                      blurRadius: _glowAnimation.value,
+                      spreadRadius: _glowAnimation.value)
+                ]),
             child: Padding(
-              padding: EdgeInsets.only(top: 24.h, right: 24.w),
-              child: graphView(snapshot.data),
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+              //TODO: Zrób jakąś animację żeby pokazać że można w to kliknąć
+              child: GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => GraphInfo(
+                        data: snapshot.data,
+                      ),
+                      duration: const Duration(milliseconds: 500),
+                    );
+                  },
+                  child: Hero(
+                    tag: "graph",
+                    transitionOnUserGestures: true,
+                    flightShuttleBuilder: (flightContext, animation,
+                        flightDirection, fromHeroContext, toHeroContext) {
+                      return MyGraph(
+                        data: snapshot.data,
+                      );
+                    },
+                    child: MyGraph(
+                      data: snapshot.data,
+                    ),
+                  )),
             ),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget graphView(Currency? data) {
+class MyGraph extends StatefulWidget {
+  const MyGraph({super.key, required this.data});
+  final Currency? data;
+
+  @override
+  State<MyGraph> createState() => _MyGraphState();
+}
+
+class _MyGraphState extends State<MyGraph> {
+  @override
+  Widget build(BuildContext context) {
+    bool visible = false;
     return LineChart(
       LineChartData(
         minY: 4,
         maxY: 5,
         minX: 0,
         maxX: 29,
+        lineTouchData: LineTouchData(enabled: false),
         titlesData: FlTitlesData(
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: true,
+              showTitles: visible,
               reservedSize: 24.h,
               interval: 7,
               getTitlesWidget: (value, meta) {
-                switch (value.toInt()) {
-                  // case 0:
-                  //   return Text(
-                  //       "${data!.rates[0].effectiveDate.toLocal().day}/${data.rates[0].effectiveDate.toLocal().month}");
-                  case 7:
-                    return Text(
-                        "${data!.rates[7].effectiveDate.toLocal().day}/${data.rates[7].effectiveDate.toLocal().month}");
-                  case 14:
-                    return Text(
-                        "${data!.rates[14].effectiveDate.toLocal().day}/${data.rates[14].effectiveDate.toLocal().month}");
-                  case 21:
-                    return Text(
-                        "${data!.rates[21].effectiveDate.toLocal().day}/${data.rates[21].effectiveDate.toLocal().month}");
-                  case 28:
-                    return Text(
-                        "${data!.rates[28].effectiveDate.toLocal().day}/${data.rates[28].effectiveDate.toLocal().month}");
-                }
-                return Text("");
+                return const Text("");
               },
             ),
           ),
-          // leftTitles: AxisTitles(
-          //   sideTitles: SideTitles(
-          //     showTitles: true,
-          //     interval: 0.5,
-          //     reservedSize: 48.w,
-          //     getTitlesWidget: (value, meta) {
-          //       return Text(
-          //         value.toStringAsFixed(1),
-          //       );
-          //     },
-          //   ),
-          // ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: visible,
+              reservedSize: 24.w,
+              interval: 0.5,
+              getTitlesWidget: (value, meta) {
+                return const Text("");
+              },
+            ),
+          ),
         ),
         lineBarsData: [
           LineChartBarData(
             spots: [
-              for (int i = 0; i < data!.rates.length; i++)
+              for (int i = 0; i < widget.data!.rates.length; i++)
                 FlSpot(i.toDouble(),
-                    double.parse(data.rates[i].mid.toStringAsFixed(2)))
+                    double.parse(widget.data!.rates[i].mid.toStringAsFixed(2)))
             ],
             isCurved: true,
             dotData: FlDotData(show: false),

@@ -16,6 +16,8 @@ class MainViewPage extends StatefulWidget {
 
 class _MainViewPageState extends State<MainViewPage> {
   late Future<Currency> futureCurrency;
+  late Currency currencyUSD;
+  late Currency currencyEUR;
 
   @override
   void initState() {
@@ -64,6 +66,7 @@ class _MainViewPageState extends State<MainViewPage> {
                             Get.to(() => const SecondView(),
                                 transition: Transition.downToUp,
                                 duration: const Duration(milliseconds: 600));
+                            
                           }
                         },
                         child: swipeUp(),
