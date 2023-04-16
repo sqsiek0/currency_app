@@ -2,6 +2,7 @@ import 'package:currency_app/fetch_JSON/model_class.dart';
 import 'package:currency_app/second_view/main_container_info.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,92 @@ class _GraphInfoState extends State<GraphInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: Container(
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: WholeUpContainerInfo(data: widget.data),
+          ),
+          SliverFixedExtentList(
+            itemExtent: 1.sh * 0.12,
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => listOfPastValues(context, index),
+            ),
+          )
+        ],
+      ),
+    ));
+  }
+
+  Padding listOfPastValues(BuildContext context, int index) {
+    TextStyle styleText = TextStyle(
+        fontSize: 22.sp, fontWeight: FontWeight.w500, color: Colors.white);
+
+    return Padding(
+      padding: EdgeInsets.only(top: 16.h),
+      child: Card(
+        elevation: 4,
+        margin: EdgeInsets.symmetric(horizontal: 24.w),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.price_change,
+                  size: 32.sp,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 16.w,
+                ),
+                Text(
+                  widget.data!.rates[index].mid.toStringAsFixed(2),
+                  style: styleText,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.calendar_today,
+                  size: 24.sp,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 16.w,
+                ),
+                Text(
+                  widget.data!.rates[index].effectiveDate
+                      .toLocal()
+                      .toString()
+                      .split(" ")[0],
+                  style: styleText,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
+  WholeUpContainerInfo({required this.data});
+
+  final Currency? data;
+  TextStyle styleText = TextStyle(
+      fontSize: 18.sp, fontWeight: FontWeight.w400, color: Colors.white);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
       width: 1.sw,
       height: 366.h,
       decoration: BoxDecoration(
@@ -52,7 +138,18 @@ class _GraphInfoState extends State<GraphInfo> {
           ],
         ),
       ),
-    )));
+    );
+  }
+
+  @override
+  double get maxExtent => 366.h;
+
+  @override
+  double get minExtent => 366.h;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 
   Widget graphAfterClick() {
@@ -82,29 +179,29 @@ class _GraphInfoState extends State<GraphInfo> {
                           switch (value.toInt()) {
                             case 0:
                               return Text(
-                                "${widget.data!.rates[0].effectiveDate.toLocal().day}/${widget.data!.rates[0].effectiveDate.toLocal().month}",
+                                "${data!.rates[0].effectiveDate.toLocal().day}/${data!.rates[0].effectiveDate.toLocal().month}",
                                 style: styleText,
                               );
                             case 7:
                               return Text(
-                                "${widget.data!.rates[7].effectiveDate.toLocal().day}/${widget.data!.rates[7].effectiveDate.toLocal().month}",
+                                "${data!.rates[7].effectiveDate.toLocal().day}/${data!.rates[7].effectiveDate.toLocal().month}",
                                 style: styleText,
                                 softWrap: true,
                               );
 
                             case 14:
                               return Text(
-                                "${widget.data!.rates[14].effectiveDate.toLocal().day}/${widget.data!.rates[14].effectiveDate.toLocal().month}",
+                                "${data!.rates[14].effectiveDate.toLocal().day}/${data!.rates[14].effectiveDate.toLocal().month}",
                                 style: styleText,
                               );
                             case 21:
                               return Text(
-                                "${widget.data!.rates[21].effectiveDate.toLocal().day}/${widget.data!.rates[21].effectiveDate.toLocal().month}",
+                                "${data!.rates[21].effectiveDate.toLocal().day}/${data!.rates[21].effectiveDate.toLocal().month}",
                                 style: styleText,
                               );
                             case 28:
                               return Text(
-                                "${widget.data!.rates[28].effectiveDate.toLocal().day}/${widget.data!.rates[28].effectiveDate.toLocal().month}",
+                                "${data!.rates[28].effectiveDate.toLocal().day}/${data!.rates[28].effectiveDate.toLocal().month}",
                                 style: styleText,
                               );
                           }
@@ -146,11 +243,11 @@ class _GraphInfoState extends State<GraphInfo> {
                   lineBarsData: [
                     LineChartBarData(
                       spots: [
-                        for (int i = 0; i < widget.data!.rates.length; i++)
+                        for (int i = 0; i < data!.rates.length; i++)
                           FlSpot(
                               i.toDouble(),
                               double.parse(
-                                  widget.data!.rates[i].mid.toStringAsFixed(2)))
+                                  data!.rates[i].mid.toStringAsFixed(2)))
                       ],
                       isCurved: true,
                       dotData: FlDotData(show: false),

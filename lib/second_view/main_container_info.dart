@@ -16,17 +16,17 @@ class MainContainerInfo extends StatefulWidget {
 }
 
 class _MainContainerInfoState extends State<MainContainerInfo>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final TabController _tabController = TabController(
       length: 3,
       vsync: this,
       animationDuration: const Duration(milliseconds: 1500));
   late Future<Currency> futureCurrency;
 
-  late final AnimationController _glowController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1500),
-  )..repeat(reverse: true);
+  // late final AnimationController _glowController = AnimationController(
+  //   vsync: this,
+  //   duration: const Duration(milliseconds: 1500),
+  // )..repeat(reverse: true);
 
   late final Animation<double> _glowAnimation;
 
@@ -38,11 +38,11 @@ class _MainContainerInfoState extends State<MainContainerInfo>
     //       ..addListener(() {
     //         setState(() {});
     //       });
-    _glowAnimation =
-        CurvedAnimation(parent: _glowController, curve: Curves.easeIn)
-          ..addListener(() {
-            setState(() {});
-          });
+    // _glowAnimation =
+    //     CurvedAnimation(parent: _glowController, curve: Curves.easeIn)
+    //       ..addListener(() {
+    //         setState(() {});
+    //       });
     super.initState();
   }
 
@@ -162,10 +162,11 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                   borderRadius: BorderRadius.circular(32.r),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 16.0.h, left: 16.0.w, bottom: 16.0.h),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Icon(
@@ -173,11 +174,14 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                             size: 32.sp,
                           )),
                     ),
-                    Text(
-                      snapshot.data!.rates[29].mid.toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 32.0.h),
+                      child: Text(
+                        snapshot.data!.rates[29].mid.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -191,25 +195,29 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                   borderRadius: BorderRadius.circular(32.r),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 16.0.h, left: 16.0.w, bottom: 16.0.h),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Icon(
                             Icons.calendar_today,
-                            size: 32.sp,
+                            size: 24.sp,
                           )),
                     ),
-                    Text(
-                      snapshot.data!.rates[29].effectiveDate
-                          .toLocal()
-                          .toString()
-                          .split(" ")[0],
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 32.0.h),
+                      child: Text(
+                        snapshot.data!.rates[29].effectiveDate
+                            .toLocal()
+                            .toString()
+                            .split(" ")[0],
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -230,8 +238,8 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                   BoxShadow(
                       color: Colors.black.withOpacity(0.25),
                       // offset: Offset(8, 8),
-                      blurRadius: _glowAnimation.value,
-                      spreadRadius: _glowAnimation.value)
+                      blurRadius: 8,
+                      spreadRadius: 8)
                 ]),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
