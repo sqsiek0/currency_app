@@ -165,6 +165,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                   maxY: 5,
                   minX: 0,
                   maxX: 29,
+                  gridData: FlGridData(show: false),
                   lineTouchData: LineTouchData(enabled: true),
                   titlesData: FlTitlesData(
                     rightTitles:

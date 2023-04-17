@@ -23,27 +23,33 @@ class _MainContainerInfoState extends State<MainContainerInfo>
       animationDuration: const Duration(milliseconds: 1500));
   late Future<Currency> futureCurrency;
 
-  // late final AnimationController _glowController = AnimationController(
-  //   vsync: this,
-  //   duration: const Duration(milliseconds: 1500),
-  // )..repeat(reverse: true);
+  late final AnimationController _glowController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1500),
+  )..repeat(reverse: true);
 
   late final Animation<double> _glowAnimation;
 
   @override
   void initState() {
     futureCurrency = Network().fetchData(code: "eur");
-    // _glowAnimation =
-    //     Tween<double>(begin: 2.0, end: 16.0).animate(_glowController)
-    //       ..addListener(() {
-    //         setState(() {});
-    //       });
+    _glowAnimation = Tween<double>(begin: 0.5, end: 6).animate(_glowController)
+      ..addListener(() {
+        setState(() {});
+      });
     // _glowAnimation =
     //     CurvedAnimation(parent: _glowController, curve: Curves.easeIn)
     //       ..addListener(() {
     //         setState(() {});
     //       });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _glowController.dispose();
+    super.dispose();
   }
 
   @override
@@ -228,48 +234,51 @@ class _MainContainerInfoState extends State<MainContainerInfo>
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 32.h),
-          child: Container(
-            width: 318.w,
-            height: 176.h,
-            decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(32.r),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.25),
-                      // offset: Offset(8, 8),
-                      blurRadius: 8,
-                      spreadRadius: 8)
-                ]),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-              //TODO: Zrób jakąś animację żeby pokazać że można w to kliknąć
-              child: GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      () => GraphInfo(
-                        data: snapshot.data,
-                      ),
-                      duration: const Duration(milliseconds: 500),
-                    );
-                  },
-                  child: Hero(
-                    tag: "graph",
-                    transitionOnUserGestures: true,
-                    flightShuttleBuilder: (flightContext, animation,
-                        flightDirection, fromHeroContext, toHeroContext) {
-                      return MyGraph(
-                        data: snapshot.data,
-                      );
-                    },
-                    child: MyGraph(
-                      data: snapshot.data,
-                    ),
-                  )),
-            ),
-          ),
+          child: clickOnGraph(snapshot),
         ),
       ],
+    );
+  }
+
+  Container clickOnGraph(AsyncSnapshot<Currency> snapshot) {
+    return Container(
+      width: 318.w,
+      height: 176.h,
+      decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(32.r),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                // offset: Offset(8, 8),
+                blurRadius: 12,
+                spreadRadius: _glowAnimation.value)
+          ]),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+        child: GestureDetector(
+            onTap: () {
+              Get.to(
+                () => GraphInfo(
+                  data: snapshot.data,
+                ),
+                duration: const Duration(milliseconds: 500),
+              );
+            },
+            child: Hero(
+              tag: "graph",
+              transitionOnUserGestures: true,
+              flightShuttleBuilder: (flightContext, animation, flightDirection,
+                  fromHeroContext, toHeroContext) {
+                return MyGraph(
+                  data: snapshot.data,
+                );
+              },
+              child: MyGraph(
+                data: snapshot.data,
+              ),
+            )),
+      ),
     );
   }
 }
@@ -293,6 +302,7 @@ class _MyGraphState extends State<MyGraph> {
         minX: 0,
         maxX: 29,
         lineTouchData: LineTouchData(enabled: false),
+        gridData: FlGridData(show: false),
         titlesData: FlTitlesData(
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
