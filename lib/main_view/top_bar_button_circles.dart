@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:currency_app/colors/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuIcon extends StatelessWidget {
   const MenuIcon({super.key});
@@ -28,10 +29,23 @@ class MyDrawerClass extends StatefulWidget {
 
 class _MyDrawerClassState extends State<MyDrawerClass> {
   bool _valueOfSwitch = false;
+  List<String> iconsPath = [
+    "assets/icons/github.png",
+    "assets/icons/linkedin.png",
+    "assets/icons/info-button.png"
+  ];
+  List<String> buttonName = ["GitHub", "LinkedIn", "Info"];
+  List<String> urlWebsite = [
+    "https://github.com/sqsiek0",
+    "https://linkedin.com/in/klaudiusz-kalinowski-26699b261/",
+    "http://github.com/sqsiek0/currency_app"
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        backgroundColor:
+            _valueOfSwitch ? darkTheme.primary : lightTheme.primary,
         elevation: 8,
         width: 0.8.sw,
         child: SafeArea(
@@ -42,7 +56,9 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                 height: 0.4.sh,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: _valueOfSwitch
+                        ? darkTheme.secondary
+                        : lightTheme.secondary,
                   ),
                   child: Column(
                     children: [
@@ -51,15 +67,17 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Klaudiusz Kalinowski",
-                                  style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600),
-                                )),
+                            Text(
+                              "Klaudiusz Kalinowski",
+                              style: TextStyle(
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: _valueOfSwitch
+                                      ? darkTheme.primary
+                                      : lightTheme.primary),
+                            ),
                             Switch(
+                                //TODO: Wybrać kolory tego switcha jak wybierzesz palete
                                 value: _valueOfSwitch,
                                 onChanged: (value) {
                                   setState(() {
@@ -87,9 +105,77 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                   ),
                 ),
               ),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 48.0.w),
+                child: Column(
+                  children: [
+                    for (int i = 0; i < 3; i++)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 32.h),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            goToWebsite(urlWebsite[i]);
+                          },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(
+                                _valueOfSwitch
+                                    ? darkTheme.secondary
+                                    : lightTheme.primary,
+                              ),
+                              fixedSize: MaterialStatePropertyAll<Size>(
+                                Size(1.sw, 64.h),
+                              ),
+                              elevation:
+                                  const MaterialStatePropertyAll<double>(4),
+                              shape: MaterialStatePropertyAll<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              )),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                iconsPath[i],
+                                height: 32.h,
+                              ),
+                              const Spacer(),
+                              Center(
+                                child: Text(
+                                  buttonName[i],
+                                  style: TextStyle(
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ],
           ),
         ));
+  }
+
+  Future<void> goToWebsite(String url) async {
+    final Uri uri = Uri.parse(url);
+    // if (await canLaunchUrl(uri)) {
+    //   await launchUrl(uri);
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
+    try {
+      await launchUrl(uri);
+    } catch (e) {
+      throw 'Could not launch $url';
+    }
   }
 }
 

@@ -33,7 +33,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
   @override
   void initState() {
     futureCurrency = Network().fetchData(code: "eur");
-    _glowAnimation = Tween<double>(begin: 0.5, end: 6).animate(_glowController)
+    _glowAnimation = Tween<double>(begin: 0.5, end: 12).animate(_glowController)
       ..addListener(() {
         setState(() {});
       });

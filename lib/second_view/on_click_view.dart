@@ -29,9 +29,13 @@ class _GraphInfoState extends State<GraphInfo> {
             pinned: true,
             delegate: WholeUpContainerInfo(data: widget.data),
           ),
+          SliverToBoxAdapter(
+            child: dataBetweenViews(),
+          ),
           SliverFixedExtentList(
             itemExtent: 1.sh * 0.12,
             delegate: SliverChildBuilderDelegate(
+              childCount: widget.data!.rates.length,
               (context, index) => listOfPastValues(context, index),
             ),
           )
@@ -40,12 +44,41 @@ class _GraphInfoState extends State<GraphInfo> {
     ));
   }
 
+  Column dataBetweenViews() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 8.h),
+          child: SizedBox(
+            width: 126.w,
+            child: Divider(
+              thickness: 2,
+              height: 2.h,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 16.w),
+            child: Text("Last 30 days",
+                style: TextStyle(
+                    fontSize: 28.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87)),
+          ),
+        ),
+      ],
+    );
+  }
+
   Padding listOfPastValues(BuildContext context, int index) {
     TextStyle styleText = TextStyle(
         fontSize: 22.sp, fontWeight: FontWeight.w500, color: Colors.white);
 
     return Padding(
-      padding: EdgeInsets.only(top: 16.h),
+      padding: EdgeInsets.only(bottom: 16.h),
       child: Card(
         elevation: 4,
         margin: EdgeInsets.symmetric(horizontal: 24.w),

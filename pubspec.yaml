@@ -13,6 +13,7 @@ dependencies:
   flutter_screenutil: ^5.7.0
   fl_chart: ^0.61.0
   get: 
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/
