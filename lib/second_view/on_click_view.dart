@@ -1,8 +1,6 @@
 import 'package:currency_app/fetch_JSON/model_class.dart';
-import 'package:currency_app/second_view/main_container_info.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 

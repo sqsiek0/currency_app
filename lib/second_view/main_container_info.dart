@@ -1,8 +1,6 @@
 import 'package:currency_app/fetch_JSON/model_class.dart';
-import 'package:currency_app/second_view/graphs_view.dart';
 import 'package:currency_app/second_view/on_click_view.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -164,7 +162,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 width: 168.w,
                 height: 128.h,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(32.r),
                 ),
                 child: Column(

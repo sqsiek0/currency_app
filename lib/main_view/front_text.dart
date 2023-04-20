@@ -52,7 +52,7 @@ class _AnimatedMainTextState extends State<AnimatedMainText>
   late AnimationController _controller;
   late final Animation<Offset> _animation = Tween<Offset>(
     begin: const Offset(0, 0),
-    end: const Offset(0, 0.12), // TODO: Pobawić się tymi wartościami
+    end: const Offset(0, 0.12),
   ).animate(CurvedAnimation(
     parent: _controller,
     curve: Curves.easeInOut,
@@ -63,7 +63,7 @@ class _AnimatedMainTextState extends State<AnimatedMainText>
     super.initState();
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3500))
-      ..repeat(reverse: true); //TODO: Zmienić na repeat(reverse: true) lub stop
+      ..repeat(reverse: true); 
   }
 
   @override

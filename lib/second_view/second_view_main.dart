@@ -1,7 +1,6 @@
 import 'package:currency_app/main_view/top_bar_button_circles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 import 'main_container_info.dart';
 
@@ -54,12 +53,12 @@ class _SecondViewState extends State<SecondView>
               Padding(
                 padding: EdgeInsets.only(top: 56.h),
               ),
-              MainContainerInfo(),
+              const MainContainerInfo(),
             ],
           ),
         ),
       ),
-      drawer: const MyDrawerClass(), // TODO: Zrobić ten drawer do końca
+      drawer: const MyDrawerClass(),
     );
   }
 }

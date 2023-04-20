@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:currency_app/colors/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MenuIcon extends StatelessWidget {
@@ -28,7 +29,6 @@ class MyDrawerClass extends StatefulWidget {
 }
 
 class _MyDrawerClassState extends State<MyDrawerClass> {
-  bool _valueOfSwitch = false;
   List<String> iconsPath = [
     "assets/icons/github.png",
     "assets/icons/linkedin.png",
@@ -43,124 +43,114 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
 
   @override
   Widget build(BuildContext context) {
+    final switchTheme = Provider.of<ThemeSwitch>(context);
     return Drawer(
-        backgroundColor:
-            _valueOfSwitch ? darkTheme.primary : lightTheme.primary,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 8,
         width: 0.8.sw,
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                width: 1.sw,
-                height: 0.4.sh,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: _valueOfSwitch
-                        ? darkTheme.secondary
-                        : lightTheme.secondary,
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 32.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Klaudiusz Kalinowski",
-                              style: TextStyle(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: _valueOfSwitch
-                                      ? darkTheme.primary
-                                      : lightTheme.primary),
-                            ),
-                            Switch(
-                                //TODO: Wybrać kolory tego switcha jak wybierzesz palete
-                                value: _valueOfSwitch,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _valueOfSwitch = value;
-                                  });
-                                  print(_valueOfSwitch);
-                                }),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional.bottomCenter,
-                        child: Container(
-                          width: 150.w,
-                          height: 150.h,
-                          decoration: BoxDecoration(
-                            color: _valueOfSwitch
-                                ? darkTheme.primary
-                                : lightTheme.primary,
-                            borderRadius: BorderRadius.circular(100.r),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 1.sw,
+              height: 0.42.sh,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 48.0.w),
                 child: Column(
                   children: [
-                    for (int i = 0; i < 3; i++)
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 32.h),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            goToWebsite(urlWebsite[i]);
-                          },
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll<Color>(
-                                _valueOfSwitch
-                                    ? darkTheme.secondary
-                                    : lightTheme.primary,
-                              ),
-                              fixedSize: MaterialStatePropertyAll<Size>(
-                                Size(1.sw, 64.h),
-                              ),
-                              elevation:
-                                  const MaterialStatePropertyAll<double>(4),
-                              shape: MaterialStatePropertyAll<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.r),
-                                ),
-                              )),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
-                                iconsPath[i],
-                                height: 32.h,
-                              ),
-                              const Spacer(),
-                              Center(
-                                child: Text(
-                                  buttonName[i],
-                                  style: TextStyle(
-                                      fontSize: 24.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            ],
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 32.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Klaudiusz Kalinowski",
+                            style: TextStyle(
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onPrimary),
                           ),
+                          Switch(
+                              //TODO: Wybrać kolory tego switcha jak wybierzesz palete
+                              value: switchTheme.valueOfSwitch,
+                              onChanged: (value) {
+                                // setState(() {
+                                //   _valueOfSwitch = value;
+                                // });
+                                switchTheme.changeTheme(value);
+                              }),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: Container(
+                        width: 150.w,
+                        height: 150.h,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(100.r),
                         ),
                       ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 48.0.w),
+              child: Column(
+                children: [
+                  for (int i = 0; i < 3; i++)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 32.h),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          goToWebsite(urlWebsite[i]);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(
+                              Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            fixedSize: MaterialStatePropertyAll<Size>(
+                              Size(1.sw, 64.h),
+                            ),
+                            elevation:
+                                const MaterialStatePropertyAll<double>(4),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            )),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              iconsPath[i],
+                              height: 32.h,
+                            ),
+                            const Spacer(),
+                            Center(
+                              child: Text(
+                                buttonName[i],
+                                style: TextStyle(
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ));
   }
 
