@@ -161,6 +161,10 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                   alignment: Alignment.topLeft,
                   child: Icon(
                     Icons.arrow_back,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .background
+                        .withOpacity(0.6),
                     size: 32.sp,
                   ),
                 ),
@@ -314,16 +318,6 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                             .colorScheme
                             .primary
                             .withOpacity(0.4),
-                        // gradient: LinearGradient(
-                        //     begin: Alignment.topCenter,
-                        //     end: Alignment.bottomCenter,
-                        //     colors: [
-                        //       Theme.of(context)
-                        //           .colorScheme
-                        //           .primary
-                        //           .withOpacity(0.4),
-                        //       Theme.of(context).colorScheme.secondary,
-                        //     ])
                       ),
                     ),
                   ],

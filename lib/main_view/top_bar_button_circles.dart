@@ -72,6 +72,9 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                                 color: Theme.of(context).colorScheme.onPrimary),
                           ),
                           Switch(
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
+
                               //TODO: Wybrać kolory tego switcha jak wybierzesz palete
                               value: switchTheme.valueOfSwitch,
                               onChanged: (value) {
@@ -86,13 +89,18 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                     Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: Container(
-                        width: 150.w,
-                        height: 150.h,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.background,
-                          borderRadius: BorderRadius.circular(100.r),
-                        ),
-                      ),
+                          width: 150.w,
+                          height: 150.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                          ),
+                          child: CircleAvatar(
+                            radius: 100.r,
+                            backgroundImage: Image.asset(
+                              "assets/images/me.jpg",
+                              fit: BoxFit.contain,
+                            ).image,
+                          )),
                     ),
                   ],
                 ),

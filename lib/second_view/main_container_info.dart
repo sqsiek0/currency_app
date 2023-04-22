@@ -136,7 +136,38 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 physics: const BouncingScrollPhysics(),
                 controller: _tabController,
                 children: [
-                  Container(),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
+                        child: Text(
+                          "Welcome to this app!",
+                          style: TextStyle(
+                              fontSize: 28.sp,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.8),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32.w),
+                        child: Text(
+                            "Here you can check the current prices of the most popular currencies in the world. Everything is in your pocket.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                height: 1.5.h,
+                                letterSpacing: 1.w,
+                                fontSize: 16.sp,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .background
+                                    .withOpacity(0.5),
+                                fontWeight: FontWeight.w400)),
+                      )
+                    ],
+                  ),
                   detailsOfCurrency(snapshot),
                   detailsOfCurrency(snapshot),
                 ],
@@ -333,7 +364,8 @@ class _MyGraphState extends State<MyGraph> {
           rightTitles: AxisTitles(
               axisNameWidget: Icon(Icons.arrow_drop_down_sharp,
                   size: 40.sp,
-                  color: Theme.of(context).colorScheme.onBackground)
+                  color:
+                      Theme.of(context).colorScheme.background.withOpacity(0.5))
               // sideTitles: SideTitles(showTitles: visible)
               ),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
