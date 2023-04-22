@@ -31,6 +31,7 @@ class _SecondViewState extends State<SecondView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: FadeTransition(
           opacity: _animation,

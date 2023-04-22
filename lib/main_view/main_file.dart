@@ -32,17 +32,15 @@ class _MainViewPageState extends State<MainViewPage> {
               designSize: const Size(412, 732),
               builder: (context, child) => GetMaterialApp(
                 debugShowCheckedModeBanner: false,
-                theme: ThemeData(
-                  primaryColor: Colors.amber,
-                  scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-                ),
-                darkTheme: ThemeData(
-                    primaryColor: Colors.green,
-                    scaffoldBackgroundColor: const Color(0xFF1E1E1E)),
+                theme: lightScreen(),
+                darkTheme: darkScreen(),
                 themeMode: switchTheme.valueOfSwitch
                     ? ThemeMode.dark
                     : ThemeMode.light,
                 home: Scaffold(
+                  backgroundColor: switchTheme.valueOfSwitch
+                      ? const Color(0xFF1E1E1E)
+                      : const Color(0xFFF8F5E4),
                   body: SafeArea(
                     child: FutureBuilder(
                       future: futureCurrency,
@@ -74,6 +72,7 @@ class _MainViewPageState extends State<MainViewPage> {
                               ),
                               Expanded(
                                 child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
                                   onVerticalDragUpdate: (details) {
                                     if (details.delta.dy < 0) {
                                       Get.to(() => const SecondView(),
@@ -82,7 +81,8 @@ class _MainViewPageState extends State<MainViewPage> {
                                               milliseconds: 600));
                                     }
                                   },
-                                  child: swipeUp(context),
+                                  child: SizedBox(
+                                      width: 1.sw, child: swipeUp(context)),
                                 ),
                               )
                             ],
@@ -98,6 +98,33 @@ class _MainViewPageState extends State<MainViewPage> {
                 ),
               ),
             ));
+  }
+
+  ThemeData darkScreen() {
+    return ThemeData(
+        // primaryColor: Colors.green, // Elementy najważniejsze
+        // scaffoldBackgroundColor: const Color(0xFF1E1E1E), // Tło
+        // primaryColorDark: Colors.amber,
+        colorScheme: const ColorScheme.dark(
+      background: Color(0xFF1E1E1E),
+      onBackground: Colors.white,
+      primary: Colors.green,
+      secondary: Colors.amber,
+    ));
+  }
+
+  ThemeData lightScreen() {
+    return ThemeData(
+        // primaryColor: Colors.amber, // Elementy najważniejsze
+        // scaffoldBackgroundColor: const Color(0xFFE5E5E5), // Tło
+        // primaryColorDark: Colors.green, // Karty duże
+
+        colorScheme: const ColorScheme.light(
+            background: Color(0xffF8F5E4), // Tło i elementy na secondary
+            onBackground: Colors.black,
+            primary: Color(0xff006D39),
+            secondary: Color(0xff3F497F), // Wszelkie karty itd.
+            tertiary: Color(0xffF7C04A)));
   }
 
   Widget swipeUp(BuildContext context) {

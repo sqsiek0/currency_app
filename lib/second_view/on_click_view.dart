@@ -19,27 +19,28 @@ class _GraphInfoState extends State<GraphInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
-      child: CustomScrollView(
-        shrinkWrap: true,
-        slivers: [
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: WholeUpContainerInfo(data: widget.data),
+          child: CustomScrollView(
+            shrinkWrap: true,
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: WholeUpContainerInfo(data: widget.data),
+              ),
+              SliverToBoxAdapter(
+                child: dataBetweenViews(),
+              ),
+              SliverFixedExtentList(
+                itemExtent: 1.sh * 0.12,
+                delegate: SliverChildBuilderDelegate(
+                  childCount: widget.data!.rates.length,
+                  (context, index) => listOfPastValues(context, index),
+                ),
+              )
+            ],
           ),
-          SliverToBoxAdapter(
-            child: dataBetweenViews(),
-          ),
-          SliverFixedExtentList(
-            itemExtent: 1.sh * 0.12,
-            delegate: SliverChildBuilderDelegate(
-              childCount: widget.data!.rates.length,
-              (context, index) => listOfPastValues(context, index),
-            ),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 
   Column dataBetweenViews() {
@@ -73,7 +74,7 @@ class _GraphInfoState extends State<GraphInfo> {
 
   Padding listOfPastValues(BuildContext context, int index) {
     TextStyle styleText = TextStyle(
-        fontSize: 22.sp, fontWeight: FontWeight.w500, color: Colors.white);
+        fontSize: 22.sp, fontWeight: FontWeight.w500, color: Colors.white70);
 
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
@@ -82,7 +83,7 @@ class _GraphInfoState extends State<GraphInfo> {
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-        color: Colors.blue,
+        color: Theme.of(context).colorScheme.secondary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -133,7 +134,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
 
   final Currency? data;
   TextStyle styleText = TextStyle(
-      fontSize: 18.sp, fontWeight: FontWeight.w400, color: Colors.white);
+      fontSize: 18.sp, fontWeight: FontWeight.w400, color: Colors.white70);
 
   @override
   Widget build(
@@ -142,7 +143,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
       width: 1.sw,
       height: 366.h,
       decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(32.r),
               bottomRight: Radius.circular(32.r))),
@@ -165,7 +166,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                 ),
               ),
             ),
-            graphAfterClick()
+            graphAfterClick(context)
           ],
         ),
       ),
@@ -183,7 +184,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
     return true;
   }
 
-  Widget graphAfterClick() {
+  Widget graphAfterClick(BuildContext context) {
     return Flexible(
         child: Hero(
             tag: "graph",
@@ -196,8 +197,31 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                   maxY: 5,
                   minX: 0,
                   maxX: 29,
+                  backgroundColor: Colors.transparent,
+                  borderData: FlBorderData(
+                    border: Border.all(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.2),
+                        width: 2),
+                  ),
                   gridData: FlGridData(show: false),
-                  lineTouchData: LineTouchData(enabled: true),
+                  lineTouchData: LineTouchData(
+                      enabled: true,
+                      touchTooltipData: LineTouchTooltipData(
+                        tooltipBgColor: Colors.transparent,
+                        getTooltipItems: (touchedSpots) {
+                          return touchedSpots.map((touchedSpot) {
+                            return LineTooltipItem(
+                                touchedSpot.y.toStringAsFixed(2),
+                                TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp));
+                          }).toList();
+                        },
+                      )),
                   titlesData: FlTitlesData(
                     rightTitles:
                         AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -274,6 +298,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                   ),
                   lineBarsData: [
                     LineChartBarData(
+                      color: Theme.of(context).colorScheme.primary,
                       spots: [
                         for (int i = 0; i < data!.rates.length; i++)
                           FlSpot(
@@ -285,7 +310,20 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                       dotData: FlDotData(show: false),
                       belowBarData: BarAreaData(
                         show: true,
-                        color: Colors.blue.withOpacity(0.4),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        // gradient: LinearGradient(
+                        //     begin: Alignment.topCenter,
+                        //     end: Alignment.bottomCenter,
+                        //     colors: [
+                        //       Theme.of(context)
+                        //           .colorScheme
+                        //           .primary
+                        //           .withOpacity(0.4),
+                        //       Theme.of(context).colorScheme.secondary,
+                        //     ])
                       ),
                     ),
                   ],

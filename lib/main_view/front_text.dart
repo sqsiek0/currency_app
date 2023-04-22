@@ -9,9 +9,6 @@ class MainText extends StatefulWidget {
 }
 
 class _MainTextState extends State<MainText> {
-  Color bigText = Colors.black;
-
-  Color smallText = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,7 @@ class _MainTextState extends State<MainText> {
                     fontSize: 44.sp,
                     letterSpacing: 1.2.sp,
                     fontWeight: FontWeight.bold,
-                    color: bigText),
+                    color: Theme.of(context).colorScheme.primary),
                 children: [
               TextSpan(
                   text: " the details",
@@ -32,7 +29,7 @@ class _MainTextState extends State<MainText> {
                       fontSize: 40.sp,
                       letterSpacing: 1.2,
                       fontWeight: FontWeight.w500,
-                      color: smallText))
+                      color: Theme.of(context).colorScheme.onBackground)),
             ])));
   }
 }
@@ -63,7 +60,7 @@ class _AnimatedMainTextState extends State<AnimatedMainText>
     super.initState();
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3500))
-      ..repeat(reverse: true); 
+      ..repeat(reverse: true);
   }
 
   @override

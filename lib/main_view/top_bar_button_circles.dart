@@ -45,7 +45,7 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
   Widget build(BuildContext context) {
     final switchTheme = Provider.of<ThemeSwitch>(context);
     return Drawer(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 8,
         width: 0.8.sw,
         child: Column(
@@ -55,7 +55,7 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
               height: 0.42.sh,
               child: DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 child: Column(
                   children: [
@@ -89,7 +89,7 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                         width: 150.w,
                         height: 150.h,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius: BorderRadius.circular(100.r),
                         ),
                       ),
@@ -132,6 +132,7 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                             Image.asset(
                               iconsPath[i],
                               height: 32.h,
+                              color: Theme.of(context).colorScheme.onBackground,
                             ),
                             const Spacer(),
                             Center(
@@ -140,7 +141,9 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                                 style: TextStyle(
                                     fontSize: 24.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
                               ),
                             ),
                           ],
@@ -156,11 +159,6 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
 
   Future<void> goToWebsite(String url) async {
     final Uri uri = Uri.parse(url);
-    // if (await canLaunchUrl(uri)) {
-    //   await launchUrl(uri);
-    // } else {
-    //   throw 'Could not launch $url';
-    // }
     try {
       await launchUrl(uri);
     } catch (e) {
@@ -192,14 +190,14 @@ class _CirclesCornerState extends State<CirclesCorner> {
               width: 100.w,
               height: 100.h,
               decoration: BoxDecoration(
-                  color: smallCircleColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(50.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.black38,
                       spreadRadius: 2.r,
-                      blurRadius: 8.r,
-                      offset: const Offset(0, 3), // changes position of shadow
+                      blurRadius: 4.r,
+                      offset: const Offset(0, 2), // changes position of shadow
                     ),
                   ]),
             )),
@@ -210,14 +208,14 @@ class _CirclesCornerState extends State<CirclesCorner> {
             width: 200.w,
             height: 200.h,
             decoration: BoxDecoration(
-                color: bigCircleColor,
+                color: Theme.of(context).colorScheme.tertiary,
                 borderRadius: BorderRadius.circular(100.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.black38,
                     spreadRadius: 2.r,
-                    blurRadius: 8.r,
-                    offset: const Offset(0, 3), // changes position of shadow
+                    blurRadius: 4.r,
+                    offset: const Offset(0, 2), // changes position of shadow
                   ),
                 ]),
           ),

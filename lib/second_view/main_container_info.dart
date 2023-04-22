@@ -19,34 +19,19 @@ class _MainContainerInfoState extends State<MainContainerInfo>
       length: 3,
       vsync: this,
       animationDuration: const Duration(milliseconds: 1500));
+
   late Future<Currency> futureCurrency;
-
-  late final AnimationController _glowController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1500),
-  )..repeat(reverse: true);
-
-  late final Animation<double> _glowAnimation;
 
   @override
   void initState() {
     futureCurrency = Network().fetchData(code: "eur");
-    _glowAnimation = Tween<double>(begin: 0.5, end: 12).animate(_glowController)
-      ..addListener(() {
-        setState(() {});
-      });
-    // _glowAnimation =
-    //     CurvedAnimation(parent: _glowController, curve: Curves.easeIn)
-    //       ..addListener(() {
-    //         setState(() {});
-    //       });
+
     super.initState();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-    _glowController.dispose();
     super.dispose();
   }
 
@@ -67,10 +52,14 @@ class _MainContainerInfoState extends State<MainContainerInfo>
   }
 
   Container tabBarView(AsyncSnapshot<Currency> snapshot) {
+    double noDollar = 32.sp;
+    double dollar = 32.sp;
+    double euro = 32.sp;
+
     return Container(
         width: 1.sw,
         decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadiusDirectional.only(
                 topStart: Radius.circular(40.r),
                 topEnd: Radius.circular(40.r))),
@@ -79,23 +68,30 @@ class _MainContainerInfoState extends State<MainContainerInfo>
             padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(32.r),
-              ),
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(32.r),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 4,
+                      spreadRadius: 3,
+                      offset: Offset(0, 3),
+                    ),
+                  ]),
               width: 1.sw,
               height: 80.h,
               child: TabBar(
                   controller: _tabController,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.black26,
-                  labelStyle: TextStyle(fontSize: 40.sp),
+                  labelColor: Theme.of(context).colorScheme.primary,
+                  unselectedLabelColor:
+                      Theme.of(context).colorScheme.onBackground.withAlpha(75),
                   indicator: UnderlineTabIndicator(
                       borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.h,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        width: 4.h,
                       ),
-                      insets: EdgeInsets.symmetric(
-                          horizontal: 32.w, vertical: 16.h),
+                      insets:
+                          EdgeInsets.symmetric(horizontal: 24.w, vertical: 1.h),
                       borderRadius: BorderRadius.circular(8.r)),
                   physics: const BouncingScrollPhysics(),
                   onTap: (value) {
@@ -107,25 +103,27 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                       setState(() {
                         futureCurrency = Network().fetchData(code: "eur");
                       });
+                    } else {
+                      setState(() {});
                     }
                   },
                   tabs: [
                     Tab(
                       icon: Icon(
                         Icons.money_off,
-                        size: 32.sp,
+                        size: noDollar,
                       ),
                     ),
                     Tab(
                       icon: Icon(
                         Icons.attach_money,
-                        size: 32.sp,
+                        size: dollar,
                       ),
                     ),
                     Tab(
                       icon: Icon(
                         Icons.euro,
-                        size: 32.sp,
+                        size: euro,
                       ),
                     ),
                   ]),
@@ -138,7 +136,6 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 physics: const BouncingScrollPhysics(),
                 controller: _tabController,
                 children: [
-                  //! Jeśli będziesz tworzył wykres spróbuj go opoznic ładoowaniem w kółko
                   Container(),
                   detailsOfCurrency(snapshot),
                   detailsOfCurrency(snapshot),
@@ -162,9 +159,15 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 width: 168.w,
                 height: 128.h,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(32.r),
-                ),
+                    color: Theme.of(context).colorScheme.background,
+                    borderRadius: BorderRadius.circular(32.r),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black38,
+                          blurRadius: 4,
+                          spreadRadius: 3,
+                          offset: Offset(0, 3))
+                    ]),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -176,6 +179,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                           child: Icon(
                             Icons.money_rounded,
                             size: 32.sp,
+                            color: Theme.of(context).colorScheme.onBackground,
                           )),
                     ),
                     Padding(
@@ -185,6 +189,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ),
@@ -195,8 +200,15 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 width: 168.w,
                 height: 128.h,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: BorderRadius.circular(32.r),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 4,
+                        spreadRadius: 3,
+                        offset: Offset(0, 3))
+                  ],
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,6 +221,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                           child: Icon(
                             Icons.calendar_today,
                             size: 24.sp,
+                            color: Theme.of(context).colorScheme.onBackground,
                           )),
                     ),
                     Padding(
@@ -221,6 +234,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ),
@@ -238,45 +252,53 @@ class _MainContainerInfoState extends State<MainContainerInfo>
     );
   }
 
-  Container clickOnGraph(AsyncSnapshot<Currency> snapshot) {
-    return Container(
-      width: 318.w,
-      height: 176.h,
-      decoration: BoxDecoration(
-          color: Colors.amber,
-          borderRadius: BorderRadius.circular(32.r),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                // offset: Offset(8, 8),
-                blurRadius: 12,
-                spreadRadius: _glowAnimation.value)
-          ]),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-        child: GestureDetector(
-            onTap: () {
-              Get.to(
-                () => GraphInfo(
-                  data: snapshot.data,
-                ),
-                duration: const Duration(milliseconds: 500),
-              );
-            },
-            child: Hero(
-              tag: "graph",
-              transitionOnUserGestures: true,
-              flightShuttleBuilder: (flightContext, animation, flightDirection,
-                  fromHeroContext, toHeroContext) {
-                return MyGraph(
-                  data: snapshot.data,
-                );
-              },
-              child: MyGraph(
-                data: snapshot.data,
-              ),
-            )),
-      ),
+  Widget clickOnGraph(AsyncSnapshot<Currency> snapshot) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: 296.w,
+            height: 176.h,
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(32.r),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.25),
+                      offset: Offset(0, 4),
+                      blurRadius: 4,
+                      spreadRadius: 4)
+                ]),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+              child: GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => GraphInfo(
+                        data: snapshot.data,
+                      ),
+                      duration: const Duration(milliseconds: 500),
+                    );
+                  },
+                  child: Hero(
+                    tag: "graph",
+                    transitionOnUserGestures: true,
+                    flightShuttleBuilder: (flightContext, animation,
+                        flightDirection, fromHeroContext, toHeroContext) {
+                      return MyGraph(
+                        data: snapshot.data,
+                      );
+                    },
+                    child: MyGraph(
+                      data: snapshot.data,
+                    ),
+                  )),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -299,10 +321,21 @@ class _MyGraphState extends State<MyGraph> {
         maxY: 5,
         minX: 0,
         maxX: 29,
+        borderData: FlBorderData(
+          border: Border.all(
+              width: 2.w,
+              color:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.2)),
+        ),
         lineTouchData: LineTouchData(enabled: false),
         gridData: FlGridData(show: false),
         titlesData: FlTitlesData(
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
+          rightTitles: AxisTitles(
+              axisNameWidget: Icon(Icons.arrow_drop_down_sharp,
+                  size: 40.sp,
+                  color: Theme.of(context).colorScheme.onBackground)
+              // sideTitles: SideTitles(showTitles: visible)
+              ),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
@@ -327,6 +360,7 @@ class _MyGraphState extends State<MyGraph> {
         ),
         lineBarsData: [
           LineChartBarData(
+            color: Theme.of(context).colorScheme.primary,
             spots: [
               for (int i = 0; i < widget.data!.rates.length; i++)
                 FlSpot(i.toDouble(),
@@ -336,7 +370,7 @@ class _MyGraphState extends State<MyGraph> {
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: Colors.blue.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
             ),
           ),
         ],
