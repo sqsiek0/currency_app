@@ -20,4 +20,4 @@ When designing my hi-fi app, I wanted it to be aesthetically pleasing like my lo
 
 ![HI-FI_design](assets/images/hi_fi_design.png)
 
-![gif_design](assets/images/gif_design.gif)
+![gif_design](assets/images/design_gif.gif)
