@@ -13,6 +13,11 @@ This app shows the latest info about currency for example the average price of t
 ### 1. Lo-Fi
 It is a low-fidelity design of how the app should look like. In designing such an app I focused on implementing things that would be intuitive to use and pretty. Despite its simple design app will be animated which will be shown in the Hi-Fi design.
 
-![LO-FI_design](https://user-images.githubusercontent.com/91225580/228665197-6145f9db-68b9-4aac-bc63-e1501af84040.png)
+![LO-FI_design](assets/images/lo_fi_design.png)
 
 ### 2. Hi-Fi
+When designing my hi-fi app, I wanted it to be aesthetically pleasing like my lo-fi design. To achieve this, I used Figma for its helpful features and to plan out the design process. This saved me a significant amount of time. Overall, using Figma taught me valuable lessons about designing mobile apps that I will apply in the future. Please note that the app image only shows the light mode, as I focused more on functionality than on color options for the dark mode.
+
+![HI-FI_design](assets/images/hi_fi_design.png)
+
+![gif_design](assets/images/gif_design.gif)
