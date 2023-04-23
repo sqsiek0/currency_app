@@ -19,4 +19,5 @@ It is a low-fidelity design of how the app should look like. In designing such a
 When designing my hi-fi app, I wanted it to be aesthetically pleasing like my lo-fi design. To achieve this, I used Figma for its helpful features and to plan out the design process. This saved me a significant amount of time. Overall, using Figma taught me valuable lessons about designing mobile apps that I will apply in the future. Please note that the app image only shows the light mode, as I focused more on functionality than on color options for the dark mode.
 
 ![HI-FI_design](assets/images/hi_fi_design.png)
+
 ![gif_design](assets/images/gif_design.gif)
