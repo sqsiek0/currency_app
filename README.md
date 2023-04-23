@@ -24,11 +24,18 @@ When designing my hi-fi app, I wanted it to be aesthetically pleasing like my lo
 
 > Here's a visualization of how the prototype is expected to operate. It's important to keep in mind that the actual project may not have animations and transitions that are identical to those shown in this demonstration. Nonetheless, this visual aid can give you a general idea of what the final product should look and function like.
 
+
 ![gif_design](assets/images/design_gif.gif)
 
 ## Programming
 I learned so much from this project! One of the things I learned was how to maintain files to make them smaller, as well as many other functions that helped me build the project. The app is also responsive on different screens. I focused on using animations and transitions to make it more visually appealing. In the future, I know I'll be using the getx and provider packages because they made my work so much easier. I also made the application dual-themed so that the user can enjoy it no matter what time of day or night it is. Overall, working on this project was fun, and it encouraged me to make more apps in the future!
 
-![whole_app_presentation](assets/images/whole_app.gif)
+<p align="center">
+  <img src="assets/images/full_app.gif" />
+</p>
+
+> Video is in bad quality cause i have to convert it to .gif file to post on github
+
+In the video, we can see how the app is working smoothly. I really like how changing the theme affects the whole app, it's very convenient. It is all thanks to the provider package. The animations are also great. The transitions between screens are beautiful, thanks to the getx package. Overall, this app seems well-designed and user-friendly.
 
 
