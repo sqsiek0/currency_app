@@ -29,4 +29,6 @@ When designing my hi-fi app, I wanted it to be aesthetically pleasing like my lo
 ## Programming
 I learned so much from this project! One of the things I learned was how to maintain files to make them smaller, as well as many other functions that helped me build the project. The app is also responsive on different screens. I focused on using animations and transitions to make it more visually appealing. In the future, I know I'll be using the getx and provider packages because they made my work so much easier. I also made the application dual-themed so that the user can enjoy it no matter what time of day or night it is. Overall, working on this project was fun, and it encouraged me to make more apps in the future!
 
+![whole_app_presentation](assets/images/whole_app.gif)
+
 
