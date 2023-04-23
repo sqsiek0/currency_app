@@ -1,5 +1,14 @@
 # Current Info
 
+## How to install
+1. Download the zip file from GitHub
+2. Unpack the zip file where you want
+3. Open the folder in your IDE
+4. Open the pubspec.yaml file and type 'flutter pub get' in terminal
+5. Open your phone emulator
+6. Type 'flutter run' in terminal
+7. Done
+
 ## Introduction
 This app shows the latest info about currency for example the average price of the currency to PLN, the date of the current price, and the graph that shows the last 30 days of changing price. It is a really simple app but you can get a lot of knowledge from it.
 
