@@ -102,23 +102,19 @@ class _MainViewPageState extends State<MainViewPage> {
 
   ThemeData darkScreen() {
     return ThemeData(
-        // primaryColor: Colors.green, // Elementy najważniejsze
-        // scaffoldBackgroundColor: const Color(0xFF1E1E1E), // Tło
-        // primaryColorDark: Colors.amber,
+        hintColor: Colors.white70,
         colorScheme: const ColorScheme.dark(
-      background: Color(0xFF1E1E1E),
-      onBackground: Colors.white,
-      primary: Colors.green,
-      secondary: Colors.amber,
-    ));
+          background: Color(0xFF121212),
+          onBackground: Colors.white,
+          primary: Colors.green,
+          secondary: Color(0xff2a2929),
+          // tertiary: Color(0xff545151),
+        ));
   }
 
   ThemeData lightScreen() {
     return ThemeData(
-        // primaryColor: Colors.amber, // Elementy najważniejsze
-        // scaffoldBackgroundColor: const Color(0xFFE5E5E5), // Tło
-        // primaryColorDark: Colors.green, // Karty duże
-
+        hintColor: Colors.white70,
         colorScheme: const ColorScheme.light(
             background: Color(0xffF8F5E4), // Tło i elementy na secondary
             onBackground: Colors.black,

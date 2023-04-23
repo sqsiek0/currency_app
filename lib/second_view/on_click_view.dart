@@ -53,7 +53,7 @@ class _GraphInfoState extends State<GraphInfo> {
             child: Divider(
               thickness: 2,
               height: 2.h,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
         ),
@@ -65,7 +65,7 @@ class _GraphInfoState extends State<GraphInfo> {
                 style: TextStyle(
                     fontSize: 28.sp,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black87)),
+                    color: Theme.of(context).colorScheme.onBackground)),
           ),
         ),
       ],
@@ -79,15 +79,17 @@ class _GraphInfoState extends State<GraphInfo> {
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
       child: Card(
-        elevation: 4,
+        elevation: 6,
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
         color: Theme.of(context).colorScheme.secondary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.price_change,
@@ -146,7 +148,14 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
           color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(32.r),
-              bottomRight: Radius.circular(32.r))),
+              bottomRight: Radius.circular(32.r)),
+          boxShadow: [
+            BoxShadow(
+                color:
+                    Theme.of(context).colorScheme.onBackground.withOpacity(0.4),
+                blurRadius: 4,
+                offset: const Offset(0, 6))
+          ]),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
         child: Column(
@@ -161,10 +170,7 @@ class WholeUpContainerInfo extends SliverPersistentHeaderDelegate {
                   alignment: Alignment.topLeft,
                   child: Icon(
                     Icons.arrow_back,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .background
-                        .withOpacity(0.6),
+                    color: Theme.of(context).hintColor,
                     size: 32.sp,
                   ),
                 ),

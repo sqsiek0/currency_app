@@ -144,10 +144,8 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                           "Welcome to this app!",
                           style: TextStyle(
                               fontSize: 28.sp,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.8),
+                              color:
+                                  Theme.of(context).hintColor.withOpacity(0.8),
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -161,8 +159,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                                 letterSpacing: 1.w,
                                 fontSize: 16.sp,
                                 color: Theme.of(context)
-                                    .colorScheme
-                                    .background
+                                    .hintColor
                                     .withOpacity(0.5),
                                 fontWeight: FontWeight.w400)),
                       )
@@ -298,7 +295,7 @@ class _MainContainerInfoState extends State<MainContainerInfo>
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.25),
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                       blurRadius: 4,
                       spreadRadius: 4)
                 ]),
@@ -363,9 +360,7 @@ class _MyGraphState extends State<MyGraph> {
         titlesData: FlTitlesData(
           rightTitles: AxisTitles(
               axisNameWidget: Icon(Icons.arrow_drop_down_sharp,
-                  size: 40.sp,
-                  color:
-                      Theme.of(context).colorScheme.background.withOpacity(0.5))
+                  size: 40.sp, color: Colors.white.withOpacity(0.7))
               // sideTitles: SideTitles(showTitles: visible)
               ),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: visible)),

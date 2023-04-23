@@ -69,13 +69,12 @@ class _MyDrawerClassState extends State<MyDrawerClass> {
                             style: TextStyle(
                                 fontSize: 24.sp,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onPrimary),
+                                color: Theme.of(context).hintColor),
                           ),
                           Switch(
                               activeColor:
                                   Theme.of(context).colorScheme.primary,
 
-                              //TODO: Wybrać kolory tego switcha jak wybierzesz palete
                               value: switchTheme.valueOfSwitch,
                               onChanged: (value) {
                                 // setState(() {
@@ -183,7 +182,6 @@ class CirclesCorner extends StatefulWidget {
 }
 
 class _CirclesCornerState extends State<CirclesCorner> {
-  //TODO: Zmienne do kolorów - zmien jak się zdecydujesz jakie kolory chcesz
   Color? bigCircleColor = Colors.grey[300];
   Color? smallCircleColor = Colors.grey[400];
 
